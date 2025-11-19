@@ -2,3 +2,6 @@ openai
 python-dotenv
 fastapi
 uvicorn
+pypdf
+faiss-cpu
+numpy

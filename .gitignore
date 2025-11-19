@@ -1,9 +1,7 @@
-# Environment variables (secrets)
 .env
-
-# Python cache
+*.bin
+*.pkl
+data/
+logs/
 __pycache__/
-*.pyc
-
-# Virtual environment
 venv/
