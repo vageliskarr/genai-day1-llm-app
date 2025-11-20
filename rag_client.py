@@ -9,10 +9,6 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from datetime import datetime
 
-logger.info(f"NEW QUERY: {query}")
-
-LOG_FILE = BASE_DIR / "logs" / "rag_logs.txt"
-
 
 # ---------- Logging Setup ----------
 import logging
@@ -30,13 +26,6 @@ if not logger.handlers:
 
 # Πολύ σημαντικό: να μην το στέλνει και στον uvicorn logger
 logger.propagate = False
-
-# File handler (write to logs/rag_logs.txt)
-file_handler = logging.FileHandler(LOG_FILE, mode="a", encoding="utf-8")
-file_handler.setLevel(logging.INFO)
-file_handler.setFormatter(logging.Formatter("[%(asctime)s] %(message)s"))
-logger.addHandler(file_handler)
-
 
 # ---------- Paths ----------
 
