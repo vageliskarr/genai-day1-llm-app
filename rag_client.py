@@ -42,7 +42,40 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-# ---------- Load FAISS index + chunks ----------
+# ---------- Lazy-loaded FAISS index + chunks ----------
+
+index = None
+chunks_meta = None
+
+
+def load_index_if_needed():
+    global index, chunks_meta
+
+    if index is not None and chunks_meta is not None:
+        return
+
+    if not INDEX_PATH.exists():
+        raise FileNotFoundError(
+            f"FAISS index not found at {INDEX_PATH}. "
+            f"Run 'python build_index.py' locally to generate it."
+        )
+    if not CHUNKS_PATH.exists():
+        raise FileNotFoundError(
+            f"Chunks file not found at {CHUNKS_PATH}. "
+            f"Run 'python build_index.py' locally to generate it."
+        )
+
+    logger.info("Loading FAISS index and banking document chunks...")
+    loaded_index = faiss.read_index(str(INDEX_PATH))
+
+    with open(CHUNKS_PATH, "rb") as f:
+        loaded_chunks = pickle.load(f)
+
+    index = loaded_index
+    chunks_meta = loaded_chunks
+
+    logger.info(f"Loaded {len(chunks_meta)} chunks across all documents.")
+
 
 def embed_query(query: str) -> np.ndarray:
     """
