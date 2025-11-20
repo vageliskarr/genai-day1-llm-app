@@ -95,6 +95,8 @@ def retrieve_context(query: str, k: int = 5):
     Κάνει similarity search στο FAISS index και επιστρέφει
     τα top-k πιο σχετικά chunks με metadata και distances.
     """
+    load_index_if_needed()
+
     logger.info(f"Performing FAISS similarity search (top-k={k})...")
 
     query_emb = embed_query(query)
