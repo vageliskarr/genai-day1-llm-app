@@ -44,20 +44,6 @@ client = OpenAI(api_key=api_key)
 
 # ---------- Load FAISS index + chunks ----------
 
-if not INDEX_PATH.exists():
-    raise FileNotFoundError(f"FAISS index not found at {INDEX_PATH}")
-if not CHUNKS_PATH.exists():
-    raise FileNotFoundError(f"Chunks file not found at {CHUNKS_PATH}")
-
-logger.info("Loading FAISS index and banking document chunks...")
-index = faiss.read_index(str(INDEX_PATH))
-
-with open(CHUNKS_PATH, "rb") as f:
-    chunks_meta = pickle.load(f)
-
-logger.info(f"Loaded {len(chunks_meta)} chunks across all documents.")
-
-
 def embed_query(query: str) -> np.ndarray:
     """
     Φτιάχνει embedding για το query του χρήστη.
